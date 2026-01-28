@@ -1,0 +1,10 @@
+let nameBook = prompt("Mời bạn nhập tên sách");
+let years = prompt("Mời bạn nhập năm xuất bản của sách");
+years = Number(years);
+let newYears = +prompt("Mời bạn nhập năm hiện tại");
+let yearsBook = newYears - Number(years);
+document.write("<pre>");
+document.write(`Sách : ${nameBook}`+"\n");
+document.write(`Năm xuất bản : ${Number(years)}`+"\n");
+document.write(`Tuổi của sách : ${yearsBook} năm`+"\n");
+document.write("<pre>");
