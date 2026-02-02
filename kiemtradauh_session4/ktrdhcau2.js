@@ -8,6 +8,8 @@ for (i = 1; i < 51; i++) {
         console.log("Buzz");
     } else if (i % 3 == 0 && i % 5 == 0) {
         console.log("FizzBuzz");
+    } else {
+        console.log(`${i}`);
     }
 }
 console.log(`Tổng của tất cả các số đã in ra chữ "Fizz" là: ${countFizz}`);
