@@ -3,7 +3,7 @@ let countFizz = 0;
 for (i = 1; i < 51; i++) {
     if (i % 3 == 0 && i % 5 != 0) {
         console.log("Fizz");
-        countFizz++;
+        countFizz+= i;
     } else if (i % 5 == 0 && i % 3 != 0) {
         console.log("Buzz");
     } else if (i % 3 == 0 && i % 5 == 0) {
