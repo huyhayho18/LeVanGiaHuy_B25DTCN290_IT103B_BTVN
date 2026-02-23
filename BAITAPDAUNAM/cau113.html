@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let input = prompt("Nhập một chuỗi:");
+        let normalized = input.toLowerCase().replace(/\s+/g, "");
+        let reversed = normalized.split("").reverse().join("");
+        if (normalized === reversed) {
+        console.log("Đây là Palindrome");
+        } else {
+        console.log("Không phải Palindrome");
+        }
+    </script>
+</body>
+</html>
