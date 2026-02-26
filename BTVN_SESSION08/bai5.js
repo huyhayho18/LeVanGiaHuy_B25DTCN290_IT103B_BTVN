@@ -1,0 +1,36 @@
+const players = [
+    "Messi - Forward - 30 - 10",
+    "Ronaldo - Forward - 28 - 12",
+    "Neymar - Forward - 20 - 18",
+    "De Bruyne - Midfielder - 15 - 18",
+    "Kante - Midfielder - 5 - 5",
+    "Van Dijk - Defender - 5 - 3",
+    "Alisson - Goalkeeper - 0 - 0"
+];
+
+function reportTopPerformers(minPerformance, players) {
+    let totalPerformance = players
+        .map(player => {
+            let parts = player.split(" - ");
+            let name = parts[0];
+            let goals = +parts[2];
+            let assists = +parts[3];
+            let performance = goals + assists;
+            return { name, performance };
+        })
+        .filter(p => p.performance >= minPerformance)
+        .map(p => {
+            console.log(`${p.name}: ${p.performance}`);
+            return p.performance;
+        })
+        .reduce((acc, val) => acc + val, 0);
+
+    console.log("Tổng hiệu suất: " + totalPerformance);
+    return totalPerformance;
+}
+
+reportTopPerformers(30, players);
+
+reportTopPerformers(20, players);
+
+reportTopPerformers(50, players);
