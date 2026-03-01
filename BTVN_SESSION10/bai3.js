@@ -1,0 +1,18 @@
+function getFilteredTotalGoals(minGoals, teamPlayers) {
+  const filteredPlayers = teamPlayers.filter(player => player.goals >= minGoals);
+  const totalGoals = filteredPlayers.reduce((sum, player) => sum + player.goals, 0);
+  console.log("Tổng các bàn thắng của các cầu thủ đạt đủ chỉ tiêu là :", totalGoals);
+
+  return totalGoals;
+}
+
+const players = [
+  { name: "Messi", goals: 25 },
+  { name: "Ronaldo", goals: 30 },
+  { name: "Neymar", goals: 12 },
+  { name: "Mbappe", goals: 19 },
+  { name: "Modric", goals: 0 }
+];
+
+getFilteredTotalGoals(5, players);
+getFilteredTotalGoals(50, players);
