@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            margin-top: 6px;
+        }
+        button {
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Đăng ký</h2>
+    <form>
+        <div>
+            <label for="email">Email</label>
+            <br>
+            <input type="email" id="input">
+        </div>
+        <div>
+            <label for="passwork">Mật khẩu</label>
+            <br>
+            <input type="text" id="input">
+        </div>
+        <div>
+            <label for="email">Nhập lại mật khẩu</label>
+            <br>
+            <input type="text" id="input">
+        </div>
+        <button type="submit" id="but">Đăng ký</button>
+    </form>
+    <script>
+        const input = document.getElementById("input");
+        const button = document.getElementById("but");
+        button.addEventListener("click")
+    </script>
+</body>
+</html>
