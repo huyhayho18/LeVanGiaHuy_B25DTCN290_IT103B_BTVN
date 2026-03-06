@@ -34,10 +34,15 @@
             li.innerHTML = `
                 <span class="product-name">${newTast.name}</span>
                 <span class="product-price">${newTast.price} VND</span>
+                <button type="button" class="deleteBtn">Xóa sản phẩm</button>
             `;
+            const deleteBtn = li.querySelector(".deleteBtn");
+            deleteBtn.addEventListener("click", function(){
+            li.remove();
+            });
             productList.appendChild(li);
-        nameProduct.value = "";
-        priceProduct.value = "";
+            nameProduct.value = "";
+            priceProduct.value = "";
         }
         
     </script>
