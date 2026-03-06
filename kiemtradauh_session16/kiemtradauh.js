@@ -14,7 +14,7 @@ function create() {
     let newList = {
         name: inputTask.value
     }
-    if(inputTask ==='') {
+    if(inputTask.value.trim() ==='') {
         alert('Vui lòng nhập tên công việc!');
         return;
     }
