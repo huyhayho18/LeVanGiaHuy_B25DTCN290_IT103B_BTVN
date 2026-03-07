@@ -40,12 +40,49 @@ function renderTask() {
         let showList = document.createElement(`div`);
         showList.innerHTML = `
             <input type="checkbox" class="task-checkbox"/>
-            <span class="task-text">${task.name}</span>
+            <span id="task-text-${task.id}">${task.name}</span>
             <div class="task-actions">
-                <button class="btn-edit">✏️ Sửa</button
-                ><button class="btn-delete">🗑️ Xóa</button>
+                <button onclick="updateTask(${task.id})" class="btn-edit">✏️ Sửa</button
+                ><button onclick="deleteTask(${task.id})" class="btn-delete">🗑️ Xóa</button>
             </div>
         `;
         taskList.appendChild(showList);
     });
 }
+
+function updateTask(id) {
+    let findObject = listTask.find(task => task.id === id)
+    let valueInput = document.getElementById(`task-text-${task.id}`)
+    let newInput = document.createElement(`input`);
+    newInput.type = 'text';
+    newInput.value =  findObject.name
+
+    valueInput.replaceWith(`newInput`)
+    newInput.select();
+    newInput.focus();
+
+    function save() {
+        let newValueInput = newInput.value;
+        if (newValueInput === '') {
+            alert('Tên công việc không được để trống');
+            return;
+        }
+        findObject.name  = newValueInput;
+        renderTask();
+    }
+
+    newInput.addEventListener('keypress',(e) => {
+        if (e.key ==='Enter') {
+            save();
+        }
+    })
+}
+
+
+
+function deleteTask(id) {
+    listTask = listTask.filter(task => task.id !== id);
+    renderTask();
+}
+
+document.addEventListener(`DOMContentLoaded`,renderTask)
