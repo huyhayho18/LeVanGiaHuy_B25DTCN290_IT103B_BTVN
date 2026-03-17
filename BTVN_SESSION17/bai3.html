@@ -172,10 +172,10 @@ body {
         const input = document.getElementById("newTask");
         const task  = input.value.trim();
 
-        if (!task) return;                // ✅ bỏ qua nếu rỗng hoặc toàn khoảng trắng
+        if (!task) return;               
 
         const newTodo = {
-            id:   Date.now(),               // id duy nhất theo timestamp
+            id:   Date.now(),             
             task: task,
             done: false,
         };
@@ -184,8 +184,8 @@ body {
         localStorage.setItem(KEY, JSON.stringify(currentTodos));
         renderList(currentTodos);
 
-        input.value = "";                 // xóa ô input sau khi thêm
-        input.focus();                    // giữ focus để nhập tiếp
+        input.value = "";                
+        input.focus();                 
         }
 
     function init() {
