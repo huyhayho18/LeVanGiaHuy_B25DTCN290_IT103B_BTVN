@@ -122,8 +122,8 @@ body {
 
       let currentTodos;
       if (isFirstLoad) {
-        currentTodos = todos;                              // ✅ Lỗi 1: dùng đúng tên `todos`
-        localStorage.setItem(KEY, JSON.stringify(currentTodos)); // ✅ Lỗi 2: lưu currentTodos
+        currentTodos = todos;                              
+        localStorage.setItem(KEY, JSON.stringify(currentTodos)); 
       } else {
         currentTodos = JSON.parse(raw);
       }
