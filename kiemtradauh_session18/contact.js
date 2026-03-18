@@ -40,7 +40,7 @@ function render() {
                     </div>
                 </td>
             </tr>`
-        showListList.appendChild(showList);
+        showList.appendChild(showList);
     });
 }
 
