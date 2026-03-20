@@ -114,6 +114,17 @@ body {
 }
 .add-form button:hover  { background: #ffe033; }
 .add-form button:active { transform: scale(0.97); }
+
+.delete-btn {
+  margin-left: 12px;
+  padding: 4px 8px;
+  border: none;
+  background: #e74c3c;
+  color: white;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -155,7 +166,8 @@ body {
             card.innerHTML = `
                 <span class="icon">🌸</span>
                 <span class="name">${todo.task}</span>
-                <span class="tag">${todo.done ? "Hoàn thành" : "Chưa làm"}</span>`;
+                <span class="tag">${todo.done ? "Hoàn thành" : "Chưa làm"}</span>
+                <button class="delete-btn">🗑️</button>`;
 
             card.addEventListener("click", () => {
                 todo.done = !todo.done;
@@ -163,9 +175,13 @@ body {
                 renderList(currentTodos);
             });
 
-            const li = document.createElement("li");
-            li.appendChild(card);
-            list.appendChild(li);
+            const deleteBtn = card.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                    deleteTodo(todo.id, currentTodos);
+            });
+
+            list.appendChild(card);
         });
     }
     function addTodo(currentTodos) {
@@ -207,6 +223,12 @@ body {
         .addEventListener("keydown", e => {
         if (e.key === "Enter") addTodo(currentTodos);
         });
+    }
+
+    function deleteTodo(id, currentTodos) {
+        currentTodos = currentTodos.filter(todo => todo.id !== id);
+        localStorage.setItem(KEY, JSON.stringify(currentTodos));
+        renderList(currentTodos);
     }
 
     init();

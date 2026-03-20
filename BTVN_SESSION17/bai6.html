@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tết Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a0a00;
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+/* ── Card ── */
+.app {
+  width: 440px;
+  background: linear-gradient(160deg, #c0392b, #e74c3c 50%, #c0392b);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  position: relative;
+}
+.app::before, .app::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,220,0,0.07);
+  pointer-events: none;
+}
+.app::before { width: 200px; height: 200px; top: -50px; right: -50px; }
+.app::after  { width: 240px; height: 240px; bottom: -70px; left: -70px; }
+
+/* ── Header ── */
+.hd {
+  padding: 24px 24px 16px;
+  text-align: center;
+}
+.hd h1 { font-size: 22px; font-weight: 700; color: #FFD700; margin-bottom: 4px; }
+.hd p  { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+/* ── Stats ── */
+.stats {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  padding: 0 24px 16px;
+}
+.stats b { color: #FFD700; }
+
+/* ── Body ── */
+.body {
+  background: rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,215,0,0.15);
+  padding: 18px 20px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Add form ── */
+.add-form { display: flex; gap: 8px; margin-bottom: 14px; }
+
+.add-form input {
+  flex: 1;
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(255,215,0,0.35);
+  background: rgba(255,245,210,0.95);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  color: #5a2800;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.add-form input::placeholder { color: #b8905a; }
+.add-form input:focus { border-color: #FFD700; }
+
+.btn-add {
+  padding: 9px 18px;
+  border-radius: 9px;
+  border: none;
+  background: #FFD700;
+  color: #5a2800;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.btn-add:hover  { background: #ffe033; }
+.btn-add:active { transform: scale(0.97); }
+
+.btn-clear-all {
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(255,120,100,0.7);
+  background: rgba(180,20,10,0.45);
+  color: #ffb3ad;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-clear-all:hover  { background: #c0392b; color: #fff; border-color: #ff6b5b; }
+.btn-clear-all:active { transform: scale(0.97); }
+
+/* ── Task list ── */
+.list { display: flex; flex-direction: column; gap: 8px; }
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,245,210,0.97);
+  border-radius: 12px;
+  border: 1.5px solid rgba(255,215,0,0.25);
+  padding: 11px 14px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: #FFD700;
+  border-radius: 12px 0 0 12px;
+}
+.item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.2); border-color: rgba(255,215,0,0.5); }
+
+/* Checkbox */
+.check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  color: transparent;
+  transition: background 0.15s, border-color 0.15s;
+  background: #fff;
+}
+.item.done .check { background: #27ae60; border-color: #27ae60; color: #fff; }
+.item.done::before { background: #5a8a3a; }
+
+/* Name */
+.name { flex: 1; font-size: 14px; font-weight: 500; color: #5a2800; word-break: break-word; }
+.item.done .name { text-decoration: line-through; color: #a07850; }
+
+/* Inline edit */
+.item.editing { cursor: default; }
+.item.editing .name-display { display: none; }
+.edit-input-wrap { display: none; flex: 1; gap: 6px; align-items: center; }
+.item.editing .edit-input-wrap { display: flex; }
+
+.edit-input {
+  flex: 1;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #f39c12;
+  background: #fff8e8;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  color: #5a2800;
+  outline: none;
+}
+.edit-input:focus { border-color: #e67e22; }
+
+.save-btn, .cancel-btn {
+  padding: 4px 9px;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.save-btn   { background: #27ae60; color: #fff; }
+.cancel-btn { background: #95a5a6; color: #fff; }
+.save-btn:hover   { background: #219a52; }
+.cancel-btn:hover { background: #7f8c8d; }
+
+/* Action icons */
+.actions { display: flex; gap: 2px; flex-shrink: 0; }
+.edit-btn, .delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 4px 5px;
+  border-radius: 5px;
+  line-height: 1;
+  transition: background 0.12s;
+}
+.edit-btn:hover   { background: rgba(243,156,18,0.15); }
+.delete-btn:hover { background: rgba(231,76,60,0.12); }
+
+/* Empty */
+.empty {
+  text-align: center;
+  padding: 28px 0 12px;
+  color: rgba(255,255,255,0.45);
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Note */
+.note {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Header -->
+  <div class="hd">
+    <h1>Công việc chuẩn bị Tết</h1>
+    <p>Quản lý toàn diện danh sách</p>
+  </div>
+
+  <!-- Stats (dưới header, trên add-form) -->
+  <div class="stats" id="stats"></div>
+
+  <!-- Body -->
+  <div class="body">
+    <!-- Add form + Xóa toàn bộ cùng hàng -->
+    <div class="add-form">
+      <input type="text" id="newTask" placeholder="Nhập công việc mới..." />
+      <button class="btn-add" id="addBtn">Thêm</button>
+      <button class="btn-clear-all" id="clearAllBtn">Xóa toàn bộ</button>
+    </div>
+
+    <!-- List -->
+    <div class="list" id="list"></div>
+
+    <div class="note">Mọi thay đổi được lưu tự động vào localStorage • Refresh để kiểm tra</div>
+  </div>
+</div>
+
+<script>
+const KEY = "myTodos";
+const initialTodos = [
+  { id: 1, task: "Mua bánh chưng",     done: false },
+  { id: 2, task: "Dọn nhà đón Tết",   done: false },
+  { id: 3, task: "Gói bánh chưng",    done: false },
+  { id: 4, task: "Trang trí nhà cửa", done: false },
+];
+
+let todos = [];
+
+function persist() { localStorage.setItem(KEY, JSON.stringify(todos)); }
+
+function renderStats() {
+  const total = todos.length;
+  const done  = todos.filter(t => t.done).length;
+  const pct   = total === 0 ? 0 : Math.round(done / total * 100);
+  document.getElementById("stats").innerHTML =
+    `Tổng công việc: <b>${total}</b> &nbsp;|&nbsp; Đã hoàn thành: <b>${done}</b> (${pct}%)`;
+}
+
+function render() {
+  renderStats();
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  if (todos.length === 0) {
+    list.innerHTML = `<div class="empty">Chưa có công việc nào… 🌸</div>`;
+    return;
+  }
+
+  todos.forEach(todo => {
+    const item = document.createElement("div");
+    item.classList.add("item");
+    if (todo.done) item.classList.add("done");
+
+    item.innerHTML = `
+      <div class="check">${todo.done ? "✓" : ""}</div>
+      <span class="name name-display">${escHtml(todo.task)}</span>
+      <div class="edit-input-wrap">
+        <input class="edit-input" type="text" value="${escHtml(todo.task)}" />
+        <button class="save-btn">✔</button>
+        <button class="cancel-btn">✖</button>
+      </div>
+      <div class="actions">
+        <button class="edit-btn" title="Chỉnh sửa">✏️</button>
+        <button class="delete-btn" title="Xóa">🗑️</button>
+      </div>
+    `;
+
+    item.addEventListener("click", e => {
+      if (item.classList.contains("editing")) return;
+      if (e.target.closest(".actions")) return;
+      todo.done = !todo.done;
+      persist(); render();
+    });
+
+    item.querySelector(".edit-btn").addEventListener("click", e => {
+      e.stopPropagation();
+      item.classList.add("editing");
+      const inp = item.querySelector(".edit-input");
+      inp.focus(); inp.select();
+    });
+
+    item.querySelector(".save-btn").addEventListener("click", e => {
+      e.stopPropagation();
+      const inp = item.querySelector(".edit-input");
+      const newName = inp.value.trim();
+      if (!newName) { inp.focus(); inp.style.borderColor = "#e74c3c"; return; }
+      todo.task = newName;
+      persist(); render();
+    });
+
+    item.querySelector(".cancel-btn").addEventListener("click", e => {
+      e.stopPropagation();
+      item.classList.remove("editing");
+      item.querySelector(".edit-input").value = todo.task;
+    });
+
+    item.querySelector(".edit-input").addEventListener("keydown", e => {
+      e.stopPropagation();
+      if (e.key === "Enter")  item.querySelector(".save-btn").click();
+      if (e.key === "Escape") item.querySelector(".cancel-btn").click();
+    });
+
+    item.querySelector(".delete-btn").addEventListener("click", e => {
+      e.stopPropagation();
+      if (!confirm(`Xóa công việc "${todo.task}"?`)) return;
+      todos = todos.filter(t => t.id !== todo.id);
+      persist(); render();
+    });
+
+    list.appendChild(item);
+  });
+}
+
+function addTodo() {
+  const input = document.getElementById("newTask");
+  const task  = input.value.trim();
+  if (!task) return;
+  todos.push({ id: Date.now(), task, done: false });
+  persist(); render();
+  input.value = ""; input.focus();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function init() {
+  const raw = localStorage.getItem(KEY);
+  todos = raw ? JSON.parse(raw) : [...initialTodos];
+  if (!raw) persist();
+  render();
+
+  document.getElementById("addBtn").addEventListener("click", addTodo);
+  document.getElementById("newTask").addEventListener("keydown", e => {
+    if (e.key === "Enter") addTodo();
+  });
+  document.getElementById("clearAllBtn").addEventListener("click", () => {
+    if (todos.length === 0) return;
+    if (!confirm(`Xóa toàn bộ ${todos.length} công việc?\nHành động này không thể hoàn tác!`)) return;
+    todos = []; persist(); render();
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
